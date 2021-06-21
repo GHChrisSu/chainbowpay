@@ -1,14 +1,33 @@
-import "./index.css";
-
-class MyLibrary {
-  constructor() {
-    console.log("Library constructor loaded");
+declare global {
+  interface Window {
+    eventHub: any;
   }
-
-  myMethod = (): boolean => {
-    console.log("Library method fired");
-    return true;
-  };
 }
 
-export default MyLibrary;
+export interface EventHub {
+  $on: Function;
+  $once: Function;
+  $off: Function;
+  $emit: Function;
+}
+
+export interface AppMetadata {
+  name: string;
+  description: string;
+  url: string;
+  icons: string[];
+}
+
+class ChainBowPay {
+  vueEventHub: EventHub;
+
+  constructor() {
+    this.vueEventHub = window.parent.eventHub;
+  }
+
+  connect(metadata: AppMetadata) {
+    this.vueEventHub.$emit("connect", metadata);
+  }
+}
+
+export default ChainBowPay;
