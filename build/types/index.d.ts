@@ -19,9 +19,20 @@ export interface Account {
     name: string;
     address: string;
 }
+export interface AccountBalances {
+    [account: string]: AssetData[];
+}
+export interface AssetData {
+    symbol: string;
+    name: string;
+    decimals: string;
+    contractAddress: string;
+    balance?: string;
+}
 declare class ChainBowPay {
     vueEventHub?: EventHub;
     constructor();
     connect(metadata: AppMetadata): Promise<Account>;
+    getBalance(): Promise<AccountBalances>;
 }
 export default ChainBowPay;

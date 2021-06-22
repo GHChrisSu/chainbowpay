@@ -23,6 +23,18 @@ export interface Account {
   address: string;
 }
 
+export interface AccountBalances {
+  [account: string]: AssetData[];
+}
+
+export interface AssetData {
+  symbol: string;
+  name: string;
+  decimals: string;
+  contractAddress: string;
+  balance?: string;
+}
+
 class ChainBowPay {
   vueEventHub?: EventHub;
 
@@ -34,8 +46,18 @@ class ChainBowPay {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect", metadata);
     return new Promise((resolve, reject) => {
-      this.vueEventHub.$on("connected", (account: Account) => {
+      this.vueEventHub.$once("connected", (account: Account) => {
         resolve(account);
+      });
+    });
+  }
+
+  async getBalance(): Promise<AccountBalances> {
+    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
+    this.vueEventHub.$emit("getBalance");
+    return new Promise((resolve, reject) => {
+      this.vueEventHub.$once("getBalanceDone", (balances: AccountBalances) => {
+        resolve(balances);
       });
     });
   }
