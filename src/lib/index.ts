@@ -30,7 +30,7 @@ class ChainBowPay {
     this.vueEventHub = window.parent.eventHub;
   }
 
-  async connect(metadata: AppMetadata) {
+  async connect(metadata: AppMetadata): Promise<Account> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect", metadata);
     return new Promise((resolve, reject) => {
