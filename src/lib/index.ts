@@ -69,7 +69,7 @@ class ChainBowPay {
   /**
    * connect status cached in local storage
    */
-  listenOnConnected(cb: (account: Account) => {}) {
+  listenOnConnected(cb: (account: Account) => void) {
     this.vueEventHub.$on("connected", (account: Account) => {
       cb(account);
     });

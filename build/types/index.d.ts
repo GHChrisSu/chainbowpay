@@ -42,7 +42,7 @@ declare class ChainBowPay {
     /**
      * connect status cached in local storage
      */
-    listenOnConnected(cb: (account: Account) => {}): void;
+    listenOnConnected(cb: (account: Account) => void): void;
     stopListenOnConnected(): void;
     getBalance(): Promise<AccountBalances>;
     payment(payments: Payment[]): void;
