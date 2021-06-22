@@ -42,7 +42,7 @@ class ChainBowPay {
     this.vueEventHub = window.parent.eventHub;
   }
 
-  async connect(metadata: AppMetadata): Promise<Account> {
+  connect(metadata: AppMetadata): Promise<Account> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect", metadata);
     return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ class ChainBowPay {
     });
   }
 
-  async getBalance(): Promise<AccountBalances> {
+  getBalance(): Promise<AccountBalances> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("getBalance");
     return new Promise((resolve, reject) => {
