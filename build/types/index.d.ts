@@ -1,6 +1,6 @@
 declare global {
     interface Window {
-        eventHub: any;
+        eventHub: EventHub;
     }
 }
 export interface EventHub {
@@ -15,9 +15,13 @@ export interface AppMetadata {
     url: string;
     icons: string[];
 }
+export interface Account {
+    name: string;
+    address: string;
+}
 declare class ChainBowPay {
-    vueEventHub: EventHub;
+    vueEventHub?: EventHub;
     constructor();
-    connect(metadata: AppMetadata): void;
+    connect(metadata: AppMetadata): Promise<unknown>;
 }
 export default ChainBowPay;

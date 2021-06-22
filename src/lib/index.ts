@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    eventHub: any;
+    eventHub: EventHub;
   }
 }
 
@@ -18,15 +18,26 @@ export interface AppMetadata {
   icons: string[];
 }
 
+export interface Account {
+  name: string;
+  address: string;
+}
+
 class ChainBowPay {
-  vueEventHub: EventHub;
+  vueEventHub?: EventHub;
 
   constructor() {
     this.vueEventHub = window.parent.eventHub;
   }
 
-  connect(metadata: AppMetadata) {
+  async connect(metadata: AppMetadata) {
+    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect", metadata);
+    return new Promise((resolve, reject) => {
+      this.vueEventHub.$on("connected", (account: Account) => {
+        resolve(account);
+      });
+    });
   }
 }
 
