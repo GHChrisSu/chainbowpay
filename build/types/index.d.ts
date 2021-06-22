@@ -34,14 +34,15 @@ export interface Payment {
     amount: number;
 }
 declare class ChainBowPay {
-    vueEventHub?: EventHub;
+    private vueEventHub?;
     constructor();
+    isChainBowPlatform(): boolean;
     connect(metadata: AppMetadata): Promise<Account>;
     disconnect(): void;
     /**
      * connect status cached in local storage
      */
-    listenOnConnected(): Promise<Account>;
+    listenOnConnected(cb: (account: Account) => {}): void;
     stopListenOnConnected(): void;
     getBalance(): Promise<AccountBalances>;
     payment(payments: Payment[]): void;

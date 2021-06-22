@@ -41,10 +41,14 @@ export interface Payment {
 }
 
 class ChainBowPay {
-  vueEventHub?: EventHub;
+  private vueEventHub?: EventHub;
 
   constructor() {
     this.vueEventHub = window.parent.eventHub;
+  }
+
+  isChainBowPlatform() {
+    return typeof this.vueEventHub !== "undefined";
   }
 
   connect(metadata: AppMetadata): Promise<Account> {
@@ -65,11 +69,9 @@ class ChainBowPay {
   /**
    * connect status cached in local storage
    */
-  listenOnConnected(): Promise<Account> {
-    return new Promise((resolve, reject) => {
-      this.vueEventHub.$on("connected", (account: Account) => {
-        resolve(account);
-      });
+  listenOnConnected(cb: (account: Account) => {}) {
+    this.vueEventHub.$on("connected", (account: Account) => {
+      cb(account);
     });
   }
 
