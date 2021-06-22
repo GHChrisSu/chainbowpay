@@ -35,6 +35,11 @@ export interface AssetData {
   balance?: string;
 }
 
+export interface Payment {
+  toAddress: string;
+  amount: number;
+}
+
 class ChainBowPay {
   vueEventHub?: EventHub;
 
@@ -52,6 +57,26 @@ class ChainBowPay {
     });
   }
 
+  disconnect() {
+    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
+    this.vueEventHub.$emit("disconnect");
+  }
+
+  /**
+   * connect status cached in local storage
+   */
+  listenOnConnected(): Promise<Account> {
+    return new Promise((resolve, reject) => {
+      this.vueEventHub.$on("connected", (account: Account) => {
+        resolve(account);
+      });
+    });
+  }
+
+  stopListenOnConnected() {
+    this.vueEventHub.$off("connected");
+  }
+
   getBalance(): Promise<AccountBalances> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("getBalance");
@@ -60,6 +85,11 @@ class ChainBowPay {
         resolve(balances);
       });
     });
+  }
+
+  payment(payments: Payment[]) {
+    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
+    this.vueEventHub.$emit("payment", payments);
   }
 }
 

@@ -29,10 +29,21 @@ export interface AssetData {
     contractAddress: string;
     balance?: string;
 }
+export interface Payment {
+    toAddress: string;
+    amount: number;
+}
 declare class ChainBowPay {
     vueEventHub?: EventHub;
     constructor();
     connect(metadata: AppMetadata): Promise<Account>;
+    disconnect(): void;
+    /**
+     * connect status cached in local storage
+     */
+    listenOnConnected(): Promise<Account>;
+    stopListenOnConnected(): void;
     getBalance(): Promise<AccountBalances>;
+    payment(payments: Payment[]): void;
 }
 export default ChainBowPay;
