@@ -55,7 +55,12 @@ class ChainBowPay {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect", metadata);
     return new Promise((resolve, reject) => {
-      this.vueEventHub.$once("connected", (account: Account) => {
+      this.vueEventHub.$once("connected", (accountCompose: String) => {
+        const accountResolve = accountCompose.split("||");
+        const account = <Account>{
+          name: accountResolve[0],
+          address: accountResolve[1],
+        };
         resolve(account);
       });
     });
@@ -64,19 +69,6 @@ class ChainBowPay {
   disconnect() {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("disconnect");
-  }
-
-  /**
-   * connect status cached in local storage
-   */
-  listenOnConnected(cb: (account: Account) => void) {
-    this.vueEventHub.$on("connected", (account: Account) => {
-      cb(account);
-    });
-  }
-
-  stopListenOnConnected() {
-    this.vueEventHub.$off("connected");
   }
 
   getBalance(): Promise<AccountBalances> {

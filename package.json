@@ -1,7 +1,7 @@
 {
-  "name": "@hodgef/ts-library-boilerplate-basic",
-  "version": "1.0.111",
-  "description": "Typescript Minimal Starter Kit for building libraries",
+  "name": "chainbowpay",
+  "version": "0.5.2",
+  "description": "ChainBow Payment",
   "main": "build/index.js",
   "types": "build/types/index.d.ts",
   "scripts": {
@@ -15,17 +15,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hodgef/ts-library-boilerplate-basic"
+    "url": "https://github.com/GHChrisSu/chainbowpay"
   },
-  "author": "Francisco Hodge <hello@franciscohodge.com> (https://github.com/hodgef)",
+  "author": "HAO SU <suhao@chainbow.io> (https://github.com/GHChrisSu)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hodgef/ts-library-boilerplate-basic/issues"
+    "url": "https://github.com/GHChrisSu/chainbowpay/issues"
   },
-  "homepage": "https://github.com/hodgef/ts-library-boilerplate-basic",
+  "homepage": "https://github.com/GHChrisSu/chainbowpay",
   "keywords": [
-    "library",
-    "starter",
+    "chainbow",
+    "payment",
     "es6"
   ],
   "devDependencies": {

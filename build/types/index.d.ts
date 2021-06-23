@@ -39,11 +39,6 @@ declare class ChainBowPay {
     isChainBowPlatform(): boolean;
     connect(metadata: AppMetadata): Promise<Account>;
     disconnect(): void;
-    /**
-     * connect status cached in local storage
-     */
-    listenOnConnected(cb: (account: Account) => void): void;
-    stopListenOnConnected(): void;
     getBalance(): Promise<AccountBalances>;
     payment(payments: Payment[]): void;
 }
