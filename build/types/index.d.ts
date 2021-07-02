@@ -32,6 +32,7 @@ export interface AssetData {
 export interface Payment {
     toAddress: string;
     amount: number;
+    memo?: string;
 }
 declare class ChainBowPay {
     private vueEventHub?;
@@ -40,6 +41,6 @@ declare class ChainBowPay {
     connect(metadata: AppMetadata): Promise<Account>;
     disconnect(): void;
     getBalance(): Promise<AccountBalances>;
-    payment(payments: Payment[]): void;
+    payment(payments: Payment[], onChainData: string): void;
 }
 export default ChainBowPay;

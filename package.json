@@ -1,6 +1,6 @@
 {
   "name": "chainbowpay",
-  "version": "0.5.2",
+  "version": "0.5.201",
   "description": "ChainBow Payment",
   "main": "build/index.js",
   "types": "build/types/index.d.ts",
@@ -11,7 +11,7 @@
     "test": "jest --silent",
     "coverage": "npm run test -- --coverage",
     "prepare": "npm run build",
-    "trypublish": "npm publish || true"
+    "trypublish": "npm run build && npm publish || true"
   },
   "repository": {
     "type": "git",

@@ -38,6 +38,7 @@ export interface AssetData {
 export interface Payment {
   toAddress: string;
   amount: number;
+  memo?: string; // memo for receiver
 }
 
 class ChainBowPay {
@@ -81,9 +82,10 @@ class ChainBowPay {
     });
   }
 
-  payment(payments: Payment[]) {
+  payment(payments: Payment[] = [], onChainData: string[] = []) {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
-    this.vueEventHub.$emit("payment", payments);
+    if (payments.length === 0 && onChainData.length === 0) throw new Error("No content to sign the transaction");
+    this.vueEventHub.$emit("payment", payments, onChainData);
   }
 }
 
