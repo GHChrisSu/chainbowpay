@@ -30,9 +30,32 @@ export interface AssetData {
     balance?: string;
 }
 export interface Payment {
-    toAddress: string;
+    to: string;
+    currencyCode: string;
     amount: number;
-    memo?: string;
+}
+export interface Attachment {
+    format: string;
+    value: any;
+}
+export interface PaymentParameters {
+    payments: Payment[];
+    description?: string;
+    appAction?: string;
+    attachment?: Attachment;
+}
+export interface PaymentResult {
+    transactionId: string;
+    satoshiFees: number;
+    satoshiAmount: number;
+    note?: string;
+    type?: string;
+    time?: number;
+    fiatExchangeRate?: number;
+    fiatCurrencyCode?: string;
+    participants?: any[];
+    attachments?: any;
+    appAction?: string;
 }
 declare class ChainBowPay {
     private vueEventHub?;
@@ -41,6 +64,6 @@ declare class ChainBowPay {
     connect(metadata: AppMetadata): Promise<Account>;
     disconnect(): void;
     getBalance(): Promise<AccountBalances>;
-    payment(payments: Payment[], onChainData: string): void;
+    payment(paymentParameters: PaymentParameters): Promise<unknown>;
 }
 export default ChainBowPay;

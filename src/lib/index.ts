@@ -36,9 +36,38 @@ export interface AssetData {
 }
 
 export interface Payment {
-  toAddress: string;
+  to: string;
+  currencyCode: string;
   amount: number;
-  memo?: string; // memo for receiver
+}
+
+// attachment: { format: 'base64', value: 'ABEiM0RVZneImQCqu8zd7v8=' }
+// attachment: { format: 'hex', value: '0011223344556677889900AABBCCDDEEFF' }
+// attachment: { format: 'json', value: {"param1": "value1", "param2": "value2"} }
+export interface Attachment {
+  format: string;
+  value: any;
+}
+
+export interface PaymentParameters {
+  payments: Payment[];
+  description?: string; // memo for receiver
+  appAction?: string;
+  attachment?: Attachment;
+}
+
+export interface PaymentResult {
+  transactionId: string;
+  satoshiFees: number;
+  satoshiAmount: number;
+  note?: string;
+  type?: string;
+  time?: number;
+  fiatExchangeRate?: number;
+  fiatCurrencyCode?: string;
+  participants?: any[];
+  attachments?: any;
+  appAction?: string;
 }
 
 class ChainBowPay {
@@ -76,16 +105,33 @@ class ChainBowPay {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("getBalance");
     return new Promise((resolve, reject) => {
-      this.vueEventHub.$once("getBalanceDone", (balances: AccountBalances) => {
-        resolve(balances);
-      });
+      this.vueEventHub.$once(
+        "getBalanceDone",
+        (e: any, balances: AccountBalances) => {
+          if (e) {
+            reject(e);
+          } else {
+            resolve(balances);
+          }
+        }
+      );
     });
   }
 
-  payment(payments: Payment[] = [], onChainData: string[] = []) {
+  payment(paymentParameters: PaymentParameters) {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
-    if (payments.length === 0 && onChainData.length === 0) throw new Error("No content to sign the transaction");
-    this.vueEventHub.$emit("payment", payments, onChainData);
+    if (paymentParameters.payments.length === 0)
+      throw new Error("No content to sign the transaction");
+    this.vueEventHub.$emit("payment", paymentParameters);
+    return new Promise((resolve, reject) => {
+      this.vueEventHub.$once("paymentDone", (e: any, result: PaymentResult) => {
+        if (e) {
+          reject(e);
+        } else {
+          resolve(result);
+        }
+      });
+    });
   }
 }
 
