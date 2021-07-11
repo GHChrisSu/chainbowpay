@@ -64,6 +64,6 @@ declare class ChainBowPay {
     connect(metadata: AppMetadata): Promise<Account>;
     disconnect(): void;
     getBalance(): Promise<AccountBalances>;
-    payment(paymentParameters: PaymentParameters): Promise<unknown>;
+    payment(paymentParameters: PaymentParameters): Promise<PaymentResult>;
 }
 export default ChainBowPay;

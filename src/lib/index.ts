@@ -118,7 +118,7 @@ class ChainBowPay {
     });
   }
 
-  payment(paymentParameters: PaymentParameters) {
+  payment(paymentParameters: PaymentParameters): Promise<PaymentResult> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     if (paymentParameters.payments.length === 0)
       throw new Error("No content to sign the transaction");
