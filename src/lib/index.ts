@@ -81,12 +81,12 @@ class ChainBowPay {
     return typeof this.vueEventHub !== "undefined";
   }
 
-  connect(metadata: AppMetadata): Promise<Account> {
+  connect(): Promise<Account> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
-    this.vueEventHub.$emit("connect", metadata);
+    this.vueEventHub.$emit("connect");
     return new Promise((resolve, reject) => {
       this.vueEventHub.$once("connected", (accountCompose: String) => {
-        const accountResolve = accountCompose.split("||");
+        const accountResolve = accountCompose.split("|");
         const account = <Account>{
           name: accountResolve[0],
           address: accountResolve[1],
@@ -94,11 +94,6 @@ class ChainBowPay {
         resolve(account);
       });
     });
-  }
-
-  disconnect() {
-    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
-    this.vueEventHub.$emit("disconnect");
   }
 
   getBalance(): Promise<AccountBalances> {
@@ -115,6 +110,20 @@ class ChainBowPay {
           }
         }
       );
+    });
+  }
+
+  sign(message: string): Promise<any> {
+    if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
+    this.vueEventHub.$emit("sign", message);
+    return new Promise((resolve, reject) => {
+      this.vueEventHub.$once("signDone", (e: any, signResult: any) => {
+        if (e) {
+          reject(e);
+        } else {
+          resolve(signResult);
+        }
+      });
     });
   }
 

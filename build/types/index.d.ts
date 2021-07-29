@@ -61,9 +61,9 @@ declare class ChainBowPay {
     private vueEventHub?;
     constructor();
     isChainBowPlatform(): boolean;
-    connect(metadata: AppMetadata): Promise<Account>;
-    disconnect(): void;
+    connect(): Promise<Account>;
     getBalance(): Promise<AccountBalances>;
+    sign(message: string): Promise<any>;
     payment(paymentParameters: PaymentParameters): Promise<PaymentResult>;
 }
 export default ChainBowPay;
