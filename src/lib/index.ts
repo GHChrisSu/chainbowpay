@@ -81,7 +81,7 @@ class ChainBowPay {
     return typeof this.vueEventHub !== "undefined";
   }
 
-  async connect(): Promise<string> {
+  connect(): Promise<string> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("connect");
     return new Promise((resolve, reject) => {
@@ -91,7 +91,7 @@ class ChainBowPay {
     });
   }
 
-  async getBalance(): Promise<AccountBalances> {
+  getBalance(): Promise<AccountBalances> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("getBalance");
     return new Promise((resolve, reject) => {
@@ -108,7 +108,7 @@ class ChainBowPay {
     });
   }
 
-  async sign(message: string): Promise<any> {
+  sign(message: string): Promise<any> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     this.vueEventHub.$emit("sign", message);
     return new Promise((resolve, reject) => {
@@ -122,7 +122,7 @@ class ChainBowPay {
     });
   }
 
-  async payment(paymentParameters: PaymentParameters): Promise<PaymentResult> {
+  payment(paymentParameters: PaymentParameters): Promise<PaymentResult> {
     if (!this.vueEventHub) throw new Error("Not in Chain Bow Platform");
     if (paymentParameters.payments.length === 0)
       throw new Error("No content to sign the transaction");
